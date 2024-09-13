@@ -6,7 +6,8 @@ async function main() {
     const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
     const DAI_ADDRESS = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
 
-    const to = "0xf584F8728B874a6a5c7A8d4d387C9aae9172D621"
+    // impersonator account
+    const to = "0xf584F8728B874a6a5c7A8d4d387C9aae9172D621" 
 
     await helpers.impersonateAccount(to);
     const impersonatedSigner = await ethers.getSigner(to);
@@ -14,9 +15,10 @@ async function main() {
 
     const amountADesired = ethers.parseUnits("1000", 6);
     const amountBDesired = ethers.parseUnits("1000", 18);
+
     const amountAMin = ethers.parseUnits("20", 6);
     const amountBMin = ethers.parseUnits("20", 18);
-    
+
     const USDC_CONTRACT = await ethers.getContractAt("IERC20", USDC_ADDRESS, impersonatedSigner);
     const DAI_CONTRACT = await ethers.getContractAt("IERC20", DAI_ADDRESS, impersonatedSigner);
 
@@ -36,8 +38,8 @@ async function main() {
 
     
     await ROUTER.addLiquidity(
-        USDC_CONTRACT,
-        DAI_CONTRACT,
+        USDC_CONTRACT.getAddress(),
+        DAI_CONTRACT.getAddress(),
         amountADesired,
         amountBDesired,
         amountAMin,
